@@ -1,0 +1,78 @@
+{
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@jest/globals": "^29.3.0",
+    "@sindresorhus/tsconfig": "^3.0.1",
+    "@types/jest": "^29.2.2",
+    "@types/mute-stream": "^0.0.1",
+    "@types/node": "^18.11.9",
+    "@types/wrap-ansi": "^8.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
+    "eslint": "^8.27.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-xo": "^0.43.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-unicorn": "^45.0.1",
+    "husky": "^8.0.1",
+    "jest": "^29.3.0",
+    "lerna": "^6.0.3",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "ts-jest": "^29.0.3",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "bootstrap": "lerna bootstrap --no-ci",
+    "publish": "lerna run tsc && lerna publish",
+    "pretest": "lerna run tsc && eslint . --ext .js --ext .ts",
+    "jest": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "yarn jest && lerna exec npm test --scope inquirer",
+    "ts-node": "lerna run tsc && ts-node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SBoudrias/Inquirer.js.git"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.[jt]sx?": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "transform": {
+      "\\.[jt]sx?$": [
+        "ts-jest",
+        {
+          "useESM": true
+        }
+      ]
+    },
+    "moduleNameMapper": {
+      "(.+)\\.js": "$1",
+      "#ansi-styles": "ansi-styles",
+      "#supports-color": "supports-color"
+    },
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ]
+  }
+}
